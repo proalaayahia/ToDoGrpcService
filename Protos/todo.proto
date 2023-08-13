@@ -1,0 +1,83 @@
+syntax = "proto3";
+
+option csharp_namespace = "ToDoGrpc";
+import "google/api/annotations.proto";
+package todoit;
+
+service ToDoIt {
+
+//create
+rpc CreateTodo (CreateTodoRequest) returns (CreateTodoResponse){
+	option (google.api.http)={
+		post:"/v1/todo",
+		body:"*"
+	};
+};
+//read single 
+rpc ReadTodo (ReadToDoRequest) returns (ReadToDoResponse){
+	option (google.api.http) = {
+		get : "/v1/todo/{id}"
+	};
+};
+//read list
+rpc ListTodo (GetAllRequest) returns (GetAllResponse) {
+	option (google.api.http) = {
+		get : "/v1/todo"
+	};
+}
+//update 
+rpc UpdateTodo (UpdateToDoRequest) returns (UpdateToDoResponse){
+	option (google.api.http)={
+		put:"/v1/todo",
+		body:"*"
+	};
+};
+//delete
+rpc DeleteTodo (DeleteToDoRequest) returns (DeleteToDoResponse){
+	option (google.api.http) = {
+		delete : "/v1/todo/{id}"
+	};
+};
+}
+//create messages
+message CreateTodoRequest{
+	string title=1;
+	string description=2;
+}
+message CreateTodoResponse{
+	int32 id=1;
+}
+
+//read single messages
+
+message ReadToDoRequest{
+	int32 id=1;
+}
+message ReadToDoResponse{
+	int32 id=1;
+	string title=2;
+	string description=3;
+	string to_do_status=4;
+}
+//read list messages
+message GetAllRequest{}
+message GetAllResponse{
+	repeated ReadToDoResponse to_do=1;
+}
+//update messages
+message UpdateToDoRequest{
+	int32 id=1;
+	string title=2;
+	string description=3;
+	string to_do_status=4;
+}
+message UpdateToDoResponse{
+	int32 id=1;
+}
+//delete messages
+message DeleteToDoRequest{
+	int32 id=1;
+}
+message DeleteToDoResponse{
+	int32 id=1;
+}
